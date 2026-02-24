@@ -6,6 +6,8 @@ public class PlayerAim : MonoBehaviour
     private Camera mainCamera;
     private Vector2 mousePosition;
 
+    public Vector2 aimDirection;
+
     void Start()
     {
         mainCamera = Camera.main;
@@ -20,7 +22,6 @@ public class PlayerAim : MonoBehaviour
     void OnAim(InputValue value)
     {
         mousePosition = value.Get<Vector2>();
-        Debug.Log(mousePosition);
     }
 
     void Aim()
@@ -30,6 +31,7 @@ public class PlayerAim : MonoBehaviour
 
         Vector3 directionToTarget = mouseWorldPosition - transform.position;
         directionToTarget.Normalize();
+        aimDirection = directionToTarget;
 
         float angleRadians = Mathf.Atan2(directionToTarget.y, directionToTarget.x);
         float angleDegrees = angleRadians * Mathf.Rad2Deg;

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 input;
     private Vector2 moveDirection;
     private Rigidbody2D rb;
+
+    private bool isDashing = false;
 
     [SerializeField] private float maxSpeed;
     [SerializeField] private float acceleration;
@@ -19,7 +22,10 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        MovePlayer();
+        if (!isDashing)
+        {
+            MovePlayer();
+        }
     }
 
     void OnMove(InputValue value)
@@ -39,4 +45,30 @@ public class PlayerMovement : MonoBehaviour
         }
         rb.linearVelocity = moveDirection * maxSpeed;
     }
+
+    private IEnumerator DashRoutine(Vector2 direction, float distance, float duration)
+    {
+        isDashing = true;
+
+        float speed = distance / Mathf.Max(0.01f, duration);
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            rb.linearVelocity = direction * speed;
+            elapsed += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        rb.linearVelocity = Vector2.zero;
+        isDashing = false;
+    }
+
+
+    public void Dash(Vector2 direction, float distance, float duration)
+    {
+        direction = direction.normalized;
+        StartCoroutine(DashRoutine(direction, distance, duration));
+    }
+
 }
