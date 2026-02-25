@@ -20,8 +20,6 @@ public class HandDebugUI : MonoBehaviour
         {
             deckManager = FindFirstObjectByType<DeckManager>();
         }
-
-        Debug.Log("HandDebugUI initialized.");
     }
 
     private void OnGUI()

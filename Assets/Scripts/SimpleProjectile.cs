@@ -1,20 +1,24 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackHitbox : MonoBehaviour
+public class SimpleProjectile : MonoBehaviour
 {
+    private Vector2 moveDirection;
+    private Rigidbody2D rb;
     private WorldServices world;
     private Transform source;
     private float damageAmount;
-    private readonly HashSet<int> hitTargets = new();
 
 
-    public void Initialize(WorldServices worldServices, Transform damageSource, float dmg, float lifetime = 0.2f)
+    public void Initialize(WorldServices worldServices, Transform damageSource, float dmg, float speed, float lifetime = 4f)
     {
+        rb = GetComponent<Rigidbody2D>();
         world = worldServices;
+        moveDirection = transform.up;
         source = damageSource;
         damageAmount = dmg;
-        hitTargets.Clear();
+
+        rb.linearVelocity = moveDirection * speed;
+
         Invoke(nameof(RemoveSelf), lifetime);
     }
 
@@ -26,10 +30,10 @@ public class AttackHitbox : MonoBehaviour
         Component damageTarget = ResolveDamageTarget(other);
         if (damageTarget == null) return;
 
-        int targetId = damageTarget.GetInstanceID();
-        if (!hitTargets.Add(targetId)) return;
-
-        world.Damage.TryDeal(source, damageTarget, damageAmount);
+        if (world.Damage.TryDeal(source, damageTarget, damageAmount))
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void RemoveSelf()
@@ -37,10 +41,14 @@ public class AttackHitbox : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private bool IsSourceCollider(Collider2D other)
+    {
+        if (source == null) return false;
+        return other.transform.root == source.root;
+    }
+
     private static Component ResolveDamageTarget(Collider2D other)
     {
-        if (other == null) return null;
-
         if (other.TryGetComponent<IDamageable>(out _))
         {
             return other;
@@ -48,11 +56,5 @@ public class AttackHitbox : MonoBehaviour
 
         IDamageable damageableInParent = other.GetComponentInParent<IDamageable>();
         return damageableInParent as Component;
-    }
-
-    private bool IsSourceCollider(Collider2D other)
-    {
-        if (source == null) return false;
-        return other.transform.root == source.root;
     }
 }

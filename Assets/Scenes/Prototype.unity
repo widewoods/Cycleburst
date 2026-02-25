@@ -471,6 +471,7 @@ GameObject:
   - component: {fileID: 1957028622}
   - component: {fileID: 1957028624}
   - component: {fileID: 1957028621}
+  - component: {fileID: 1957028625}
   m_Layer: 0
   m_Name: WorldServicies
   m_TagString: Untagged
@@ -504,6 +505,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WorldServices
   movement: {fileID: 1957028621}
   damage: {fileID: 1957028624}
+  projectile: {fileID: 1957028625}
 --- !u!4 &1957028623
 Transform:
   m_ObjectHideFlags: 0
@@ -531,6 +533,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 945453b014f324ddfb4150f39caaa9a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamageService
+--- !u!114 &1957028625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957028620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f975a35acc9449aaba1473a1532ea76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileService
 --- !u!1 &1988695183
 GameObject:
   m_ObjectHideFlags: 0

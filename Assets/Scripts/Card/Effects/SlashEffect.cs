@@ -5,6 +5,7 @@ public class SlashEffect : CardEffect
 {
     [SerializeField] private GameObject hitboxPrefab;
     [SerializeField] private float damage;
+    [SerializeField] private float lifetime;
 
     public override void Resolve(CardContext ctx)
     {
@@ -17,6 +18,6 @@ public class SlashEffect : CardEffect
 
 
         var hitbox = obj.GetComponent<AttackHitbox>();
-        hitbox.Initialize(ctx.world, ctx.caster, damage);
+        hitbox.Initialize(ctx.world, ctx.caster, damage, lifetime);
     }
 }
