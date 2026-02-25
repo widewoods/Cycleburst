@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class DeckManager : MonoBehaviour
@@ -28,7 +27,6 @@ public class DeckManager : MonoBehaviour
         var card = hand[slot];
         if (card == null)
         {
-            Debug.Log($"Hand in slot {slot} is empty");
             return false;
         }
 
@@ -36,7 +34,6 @@ public class DeckManager : MonoBehaviour
         if (!card.Definition.CanPlay(ctx)) return false;
 
         card.Definition.Resolve(ctx);          // runs effect list
-        Debug.Log($"Played {card.Definition.Id} in slot {slot}");
 
         Discard(slot);
         DrawToSlot(slot);
@@ -55,13 +52,13 @@ public class DeckManager : MonoBehaviour
         var card = drawPile[lastIndex];
         drawPile.RemoveAt(lastIndex);
         hand[slot] = card;
-        Debug.Log($"Drew {hand[slot].Definition.Id}");
+
     }
 
     private void Discard(int slot)
     {
         discardPile.Add(hand[slot]);
-        Debug.Log($"Discarded {hand[slot].Definition.Id}");
+
         hand[slot] = null;
     }
 
@@ -102,6 +99,17 @@ public class DeckManager : MonoBehaviour
             aimDir = playerAim.aimDirection,
             world = worldServices
         };
+    }
+
+    public int HandSlotCount => hand == null ? 0 : hand.Length;
+    public int DrawPileCount => drawPile == null ? 0 : drawPile.Count;
+    public int DiscardPileCount => discardPile == null ? 0 : discardPile.Count;
+
+    public CardInstance GetCardInHandSlot(int slot)
+    {
+        if (hand == null) return null;
+        if (slot < 0 || slot >= hand.Length) return null;
+        return hand[slot];
     }
 }
 

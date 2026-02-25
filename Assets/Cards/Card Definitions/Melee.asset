@@ -15,4 +15,5 @@ MonoBehaviour:
   id: melee_proto
   displayName: Melee
   icon: {fileID: 0}
-  effects: []
+  effects:
+  - {fileID: 11400000, guid: 02ce4663475fa49d68af881700af39b5, type: 2}
