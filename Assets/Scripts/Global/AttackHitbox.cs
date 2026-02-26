@@ -23,7 +23,7 @@ public class AttackHitbox : MonoBehaviour
         if (world == null || other == null) return;
         if (IsSourceCollider(other)) return;
 
-        Component damageTarget = ResolveDamageTarget(other);
+        Component damageTarget = world.Damage.ResolveDamageTarget(other);
         if (damageTarget == null) return;
 
         int targetId = damageTarget.GetInstanceID();
@@ -35,19 +35,6 @@ public class AttackHitbox : MonoBehaviour
     private void RemoveSelf()
     {
         Destroy(gameObject);
-    }
-
-    private static Component ResolveDamageTarget(Collider2D other)
-    {
-        if (other == null) return null;
-
-        if (other.TryGetComponent<IDamageable>(out _))
-        {
-            return other;
-        }
-
-        IDamageable damageableInParent = other.GetComponentInParent<IDamageable>();
-        return damageableInParent as Component;
     }
 
     private bool IsSourceCollider(Collider2D other)

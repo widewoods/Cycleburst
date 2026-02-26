@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class SimpleProjectile : MonoBehaviour, IProjectile
+public class ExplosiveProjectile : MonoBehaviour, IProjectile
 {
+    [SerializeField] private GameObject explosionHitbox;
+
     private Vector2 moveDirection;
     private Rigidbody2D rb;
     private WorldServices world;
@@ -19,7 +21,7 @@ public class SimpleProjectile : MonoBehaviour, IProjectile
 
         rb.linearVelocity = moveDirection * speed;
 
-        Invoke(nameof(RemoveSelf), lifetime);
+        Invoke(nameof(Explode), lifetime);
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -30,14 +32,16 @@ public class SimpleProjectile : MonoBehaviour, IProjectile
         Component damageTarget = world.Damage.ResolveDamageTarget(other);
         if (damageTarget == null) return;
 
-        if (world.Damage.TryDeal(source, damageTarget, damageAmount))
-        {
-            Destroy(gameObject);
-        }
+        Explode();
     }
 
-    private void RemoveSelf()
+    private void Explode()
     {
+        GameObject obj = Instantiate(explosionHitbox, transform.position, Quaternion.identity);
+
+        var hitbox = obj.GetComponent<AttackHitbox>();
+        hitbox.Initialize(world, source, damageAmount);
+
         Destroy(gameObject);
     }
 

@@ -9,6 +9,6 @@ public class ProjectileService : MonoBehaviour
         float spawnAngle = Mathf.Atan2(ctx.aimDir.y, ctx.aimDir.x) * Mathf.Rad2Deg - 90f;
 
         GameObject obj = Instantiate(prefab, spawnPosition, Quaternion.Euler(0, 0, spawnAngle));
-        obj.GetComponent<SimpleProjectile>().Initialize(ctx.world, ctx.caster, damage, speed);
+        obj.GetComponent<IProjectile>().Initialize(ctx.world, ctx.caster, damage, speed);
     }
 }

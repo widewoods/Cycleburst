@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32e73861dd9634d7e88e0e59b1dbca84, type: 3}
-  m_Name: Dash & Slash
+  m_Name: Explosive Shot
   m_EditorClassIdentifier: Assembly-CSharp::CardDefinition
-  id: dash_slash
-  displayName: Dash and Slash
+  id: explosive_shot
+  displayName: Explosive Shot
   icon: {fileID: 0}
-  resolveSimultaneous: 0
+  resolveSimultaneous: 1
   effects:
-  - {fileID: 11400000, guid: 013334a64b7f14545b8cefbff12cdf74, type: 2}
-  - {fileID: 11400000, guid: 02ce4663475fa49d68af881700af39b5, type: 2}
+  - {fileID: 11400000, guid: 0bb14530c0f114f6fbb2355035bb8838, type: 2}

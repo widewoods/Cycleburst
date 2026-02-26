@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18ca50474ed19450980e2d2d43494213, type: 3}
+  m_Name: Explosive Shot Effect
+  m_EditorClassIdentifier: Assembly-CSharp::ArrowEffect
+  projectilePrefab: {fileID: 5586024329139656207, guid: 126dc28865e5144c28aade12c9a81162, type: 3}
+  damage: 10
+  speed: 10

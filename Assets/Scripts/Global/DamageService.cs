@@ -16,4 +16,17 @@ public class DamageService : MonoBehaviour
         damageable.TakeDamage(in request);
         return true;
     }
+
+    public Component ResolveDamageTarget(Collider2D collider)
+    {
+        if (collider == null) return null;
+
+        if (collider.TryGetComponent<IDamageable>(out _))
+        {
+            return collider;
+        }
+
+        IDamageable damageableInParent = collider.GetComponentInParent<IDamageable>();
+        return damageableInParent as Component;
+    }
 }
