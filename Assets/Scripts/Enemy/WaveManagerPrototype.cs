@@ -5,7 +5,7 @@ using UnityEngine;
 public class WaveManagerPrototype : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private EnemySpawnerPrototype enemySpawner;
+    [SerializeField] private EnemySpawner enemySpawner;
 
     [Header("Flow")]
     [SerializeField] private bool autoStartOnPlay = true;
@@ -26,6 +26,9 @@ public class WaveManagerPrototype : MonoBehaviour
 
     public event Action<int> WaveStarted;
     public event Action<int> WaveCleared;
+
+    private bool waitingForIntermission;
+    private bool intermissionComplete;
 
     void Start()
     {
@@ -61,6 +64,12 @@ public class WaveManagerPrototype : MonoBehaviour
             CurrentWave++;
             yield return RunSingleWave(CurrentWave);
 
+            waitingForIntermission = true;
+            intermissionComplete = false;
+            WaveCleared?.Invoke(CurrentWave);
+
+            yield return new WaitUntil(() => intermissionComplete);
+
             if (timeBetweenWaves > 0f)
             {
                 yield return new WaitForSeconds(timeBetweenWaves);
@@ -87,7 +96,6 @@ public class WaveManagerPrototype : MonoBehaviour
         }
 
         IsWaveActive = false;
-        WaveCleared?.Invoke(waveNumber);
     }
 
     protected virtual int GetWaveBudget(int waveNumber)
@@ -101,5 +109,11 @@ public class WaveManagerPrototype : MonoBehaviour
         int waveIndex = Mathf.Max(0, waveNumber - 1);
         float scaled = baseSpawnInterval * Mathf.Pow(spawnIntervalMultiplierPerWave, waveIndex);
         return Mathf.Max(minimumSpawnInterval, scaled);
+    }
+
+    public void CompleteIntermission()
+    {
+        if (!waitingForIntermission) return;
+        intermissionComplete = true;
     }
 }

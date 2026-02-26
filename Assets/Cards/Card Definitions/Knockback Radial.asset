@@ -16,5 +16,6 @@ MonoBehaviour:
   displayName: Knockback
   icon: {fileID: 0}
   resolveSimultaneous: 1
+  heatGenerated: 10
   effects:
   - {fileID: 11400000, guid: 6e6f3cae0a6fa44bf9016f2b3ebd0e9f, type: 2}

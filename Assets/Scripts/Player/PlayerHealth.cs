@@ -12,7 +12,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     public bool IsAlive => currentHealth > 0;
 
-    public static Action OnPlayerDeath;
+    public event Action OnPlayerDeath;
 
     void Awake()
     {

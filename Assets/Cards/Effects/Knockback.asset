@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Knockback
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackRadialEffect
   hitboxPrefab: {fileID: 5890705256579789619, guid: 7c4d64b0f0eaa402dac8e42510ddab7a, type: 3}
-  knockbackDistance: 100
+  knockbackDistance: 2

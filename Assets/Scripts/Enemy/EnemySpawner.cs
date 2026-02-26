@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawnerPrototype : MonoBehaviour
+public class EnemySpawner : MonoBehaviour
 {
     [Serializable]
     public class EnemySpawnEntry
@@ -24,7 +24,7 @@ public class EnemySpawnerPrototype : MonoBehaviour
     [SerializeField] private float defaultSpawnInterval = 0.35f;
     [SerializeField] private Transform targetOverride;
 
-    private readonly List<EnemyHealthPrototype> aliveEnemies = new();
+    private readonly List<EnemyHealth> aliveEnemies = new();
     private Coroutine spawnRoutine;
     private Transform cachedPlayerTransform;
 
@@ -39,8 +39,8 @@ public class EnemySpawnerPrototype : MonoBehaviour
 
     public bool IsSpawningWave { get; private set; }
 
-    public event Action<EnemyHealthPrototype> EnemySpawned;
-    public event Action<EnemyHealthPrototype> EnemyRemoved;
+    public event Action<EnemyHealth> EnemySpawned;
+    public event Action<EnemyHealth> EnemyRemoved;
 
     void Awake()
     {
@@ -143,7 +143,7 @@ public class EnemySpawnerPrototype : MonoBehaviour
         Vector2 spawnPosition = GetSpawnPosition();
         GameObject enemyObject = Instantiate(entry.prefab, spawnPosition, Quaternion.identity);
 
-        EnemyHealthPrototype health = enemyObject.GetComponentInChildren<EnemyHealthPrototype>();
+        EnemyHealth health = enemyObject.GetComponentInChildren<EnemyHealth>();
         if (health != null)
         {
             aliveEnemies.Add(health);
@@ -178,7 +178,7 @@ public class EnemySpawnerPrototype : MonoBehaviour
         return (Vector2)transform.position + randomDirection * fallbackSpawnRadius;
     }
 
-    private void OnEnemyDied(EnemyHealthPrototype deadEnemy)
+    private void OnEnemyDied(EnemyHealth deadEnemy)
     {
         if (deadEnemy == null) return;
         deadEnemy.Died -= OnEnemyDied;
@@ -208,7 +208,7 @@ public class EnemySpawnerPrototype : MonoBehaviour
 
         for (int i = 0; i < aliveEnemies.Count; i++)
         {
-            EnemyHealthPrototype enemy = aliveEnemies[i];
+            EnemyHealth enemy = aliveEnemies[i];
             if (enemy != null)
             {
                 enemy.Died -= OnEnemyDied;

@@ -15,5 +15,7 @@ MonoBehaviour:
   id: range_proto
   displayName: Range
   icon: {fileID: 0}
+  resolveSimultaneous: 1
+  heatGenerated: 5
   effects:
   - {fileID: 11400000, guid: f462baa4c712b41978e7973d8c61f57d, type: 2}

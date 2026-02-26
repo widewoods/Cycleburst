@@ -16,6 +16,7 @@ MonoBehaviour:
   displayName: Dash and Slash
   icon: {fileID: 0}
   resolveSimultaneous: 0
+  heatGenerated: 20
   effects:
   - {fileID: 11400000, guid: 013334a64b7f14545b8cefbff12cdf74, type: 2}
   - {fileID: 11400000, guid: 02ce4663475fa49d68af881700af39b5, type: 2}

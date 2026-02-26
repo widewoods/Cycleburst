@@ -13,7 +13,7 @@ public class CardDefinition : ScriptableObject
 
     [Header("Gameplay")]
     [SerializeField] private bool resolveSimultaneous = true;
-    // [SerializeField] private float cooldown;
+    [SerializeField] private int heatGenerated;
 
     [Header("Composition")]
     [SerializeField] private List<CardEffect> effects = new();
@@ -22,7 +22,7 @@ public class CardDefinition : ScriptableObject
     public string DisplayName => displayName;
     public Sprite Icon => icon;
     public bool ResolveSimultaneous => resolveSimultaneous;
-    // public float Cooldown => cooldown;
+    public int HeatGenerated => heatGenerated;
     public IReadOnlyList<CardEffect> Effects => effects;
 
     public bool CanPlay(CardContext ctx)

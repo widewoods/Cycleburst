@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class EnemyHealthPrototype : MonoBehaviour, IDamageable
+public class EnemyHealth : MonoBehaviour, IDamageable
 {
     [SerializeField] private float maxHealth = 10;
     private float currentHealth;
@@ -12,7 +12,7 @@ public class EnemyHealthPrototype : MonoBehaviour, IDamageable
     public float MaxHealth => maxHealth;
 
     public bool IsAlive => currentHealth > 0;
-    public event Action<EnemyHealthPrototype> Died;
+    public event Action<EnemyHealth> Died;
 
     void Awake()
     {

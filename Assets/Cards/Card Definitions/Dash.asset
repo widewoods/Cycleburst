@@ -15,5 +15,7 @@ MonoBehaviour:
   id: dash
   displayName: Dash
   icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  resolveSimultaneous: 1
+  heatGenerated: 10
   effects:
   - {fileID: 11400000, guid: 013334a64b7f14545b8cefbff12cdf74, type: 2}

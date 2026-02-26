@@ -16,5 +16,6 @@ MonoBehaviour:
   displayName: Explosive Shot
   icon: {fileID: 0}
   resolveSimultaneous: 1
+  heatGenerated: 30
   effects:
   - {fileID: 11400000, guid: 0bb14530c0f114f6fbb2355035bb8838, type: 2}

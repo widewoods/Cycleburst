@@ -1,15 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DeckManager : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private WorldServices worldServices;
+    [SerializeField] private PlayerHeatSystem playerHeat;
     [SerializeField] private DeckList deckList;
+
     private List<CardInstance> drawPile;
     private List<CardInstance> discardPile;
 
     private CardInstance[] hand;
+    private bool playSuccessful;
 
     // Player
     [SerializeField] private Transform playerTransform;
@@ -22,6 +27,16 @@ public class DeckManager : MonoBehaviour
         InitFromDeckList(deckList);
     }
 
+    void OnEnable()
+    {
+        worldServices.Wave.WaveCleared += InitFromCurrentDeck;
+    }
+
+    void OnDisable()
+    {
+        worldServices.Wave.WaveCleared -= InitFromCurrentDeck;
+    }
+
 
     public bool TryPlaySlot(int slot)
     {
@@ -31,31 +46,53 @@ public class DeckManager : MonoBehaviour
             return false;
         }
 
-        if (!card.Definition.ResolveSimultaneous)
+        if (playerHeat.Overheated)
         {
-            StartCoroutine(PlayCardRoutine(card, slot));
-            return true;
+            Debug.Log("Overheated!");
+            return false;
         }
 
-        var ctx = BuildContext(card);          // player, aim dir, cursor pos, etc.
-        if (!card.Definition.CanPlay(ctx)) return false;
+        if (!card.Definition.ResolveSimultaneous)
+        {
+            playSuccessful = false;
+            StartCoroutine(PlayCardRoutine(card, slot));
+            return playSuccessful;
+        }
 
-        card.Definition.Resolve(ctx);          // runs effect list
-
-        Discard(slot);
-        DrawToSlot(slot);
-
-        return true;
+        return PlayCard(card, slot);
     }
 
     private IEnumerator PlayCardRoutine(CardInstance card, int slot)
     {
         var ctx = BuildContext(card);
-        if (!card.Definition.CanPlay(ctx)) yield break;
+        if (!card.Definition.CanPlay(ctx))
+        {
+            playSuccessful = false;
+            yield break;
+        }
 
         yield return card.Definition.ResolveSequence(ctx);
+
+        playerHeat.ChangeHeat(+card.Definition.HeatGenerated);
+
         Discard(slot);
         DrawToSlot(slot);
+        playSuccessful = true;
+    }
+
+    private bool PlayCard(CardInstance card, int slot)
+    {
+
+        var ctx = BuildContext(card);          // player, aim dir, cursor pos, etc.
+        if (!card.Definition.CanPlay(ctx)) return false;
+
+        card.Definition.Resolve(ctx);          // runs effect list
+        playerHeat.ChangeHeat(+card.Definition.HeatGenerated);
+
+        Discard(slot);
+        DrawToSlot(slot);
+
+        return true;
     }
 
 
@@ -87,6 +124,28 @@ public class DeckManager : MonoBehaviour
 
         foreach (var def in deckList.cards)
             drawPile.Add(new CardInstance(def));
+
+        drawPile.Shuffle();
+
+        for (int i = 0; i < hand.Length; i++)
+            DrawToSlot(i);
+    }
+
+    private void InitFromCurrentDeck(int wave)
+    {
+        if (hand != null)
+        {
+            for (int i = 0; i < hand.Length; i++)
+            {
+                if (hand[i] != null)
+                    drawPile.Add(hand[i]);
+            }
+        }
+
+        drawPile.AddRange(discardPile);
+
+        discardPile.Clear();
+        hand = new CardInstance[4];
 
         drawPile.Shuffle();
 
