@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b132bbb0c5dce49c9986abe4674ff03e, type: 3}
-  m_Name: Slash Effect
+  m_Name: PowerSlash
   m_EditorClassIdentifier: Assembly-CSharp::SlashEffect
-  hitboxPrefab: {fileID: 4167939983223370602, guid: a85abc04e2c8842a390df274fac525bb, type: 3}
-  damage: 10
-  lifetime: 0.2
+  hitboxPrefab: {fileID: 4167939983223370602, guid: dcd0c4ae192e141d99bc8e58c4bc400d, type: 3}
+  damage: 5
+  lifetime: 0.3

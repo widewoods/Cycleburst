@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,6 +31,12 @@ public class DeckManager : MonoBehaviour
             return false;
         }
 
+        if (!card.Definition.ResolveSimultaneous)
+        {
+            StartCoroutine(PlayCardRoutine(card, slot));
+            return true;
+        }
+
         var ctx = BuildContext(card);          // player, aim dir, cursor pos, etc.
         if (!card.Definition.CanPlay(ctx)) return false;
 
@@ -40,6 +47,17 @@ public class DeckManager : MonoBehaviour
 
         return true;
     }
+
+    private IEnumerator PlayCardRoutine(CardInstance card, int slot)
+    {
+        var ctx = BuildContext(card);
+        if (!card.Definition.CanPlay(ctx)) yield break;
+
+        yield return card.Definition.ResolveSequence(ctx);
+        Discard(slot);
+        DrawToSlot(slot);
+    }
+
 
     private void DrawToSlot(int slot)
     {

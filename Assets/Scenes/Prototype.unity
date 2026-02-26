@@ -423,6 +423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1693865544}
   - component: {fileID: 1693865543}
+  - component: {fileID: 1693865545}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Untagged
@@ -442,8 +443,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad669db838fef4b0793d9a2807d327b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnerPrototype
-  enemyPrefabs:
-  - {fileID: 593486390341843193, guid: 0530cad4f3ac547f6b44470979fe7250, type: 3}
+  enemyEntries:
+  - prefab: {fileID: 593486390341843193, guid: 0530cad4f3ac547f6b44470979fe7250, type: 3}
+    cost: 1
+    weight: 1
+  spawnPoints: []
+  fallbackSpawnRadius: 10
+  defaultSpawnInterval: 0.35
+  targetOverride: {fileID: 0}
 --- !u!4 &1693865544
 Transform:
   m_ObjectHideFlags: 0
@@ -459,6 +466,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1693865545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693865542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d6d4b4c0d2342d7bbd77868a2daba9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaveManagerPrototype
+  enemySpawner: {fileID: 1693865543}
+  autoStartOnPlay: 1
+  startingWave: 1
+  timeBetweenWaves: 2
+  baseWaveBudget: 6
+  budgetIncreasePerWave: 3
+  baseSpawnInterval: 0.45
+  spawnIntervalMultiplierPerWave: 0.92
+  minimumSpawnInterval: 0.1
 --- !u!1 &1957028620
 GameObject:
   m_ObjectHideFlags: 0

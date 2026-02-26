@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,8 @@ public class CardDefinition : ScriptableObject
     [SerializeField] private string displayName;
     [SerializeField] private Sprite icon;
 
-    // [Header("Gameplay")]
+    [Header("Gameplay")]
+    [SerializeField] private bool resolveSimultaneous = true;
     // [SerializeField] private float cooldown;
 
     [Header("Composition")]
@@ -19,6 +21,7 @@ public class CardDefinition : ScriptableObject
     public string Id => id;
     public string DisplayName => displayName;
     public Sprite Icon => icon;
+    public bool ResolveSimultaneous => resolveSimultaneous;
     // public float Cooldown => cooldown;
     public IReadOnlyList<CardEffect> Effects => effects;
 
@@ -34,4 +37,11 @@ public class CardDefinition : ScriptableObject
         foreach (var e in effects)
             e.Resolve(ctx);
     }
+
+    public IEnumerator ResolveSequence(CardContext ctx)
+    {
+        foreach (var effect in effects)
+            yield return effect.ResolveSequence(ctx);
+    }
+
 }

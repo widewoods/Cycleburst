@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18ca50474ed19450980e2d2d43494213, type: 3}
-  m_Name: Arrow Effect
+  m_Name: QuickShot Effect
   m_EditorClassIdentifier: Assembly-CSharp::ArrowEffect
   projectilePrefab: {fileID: 5586024329139656207, guid: 9480a81a651194848bc53958075e0042, type: 3}
-  damage: 10
-  speed: 5
+  damage: 3
+  speed: 10

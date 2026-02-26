@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32e73861dd9634d7e88e0e59b1dbca84, type: 3}
-  m_Name: Magic
+  m_Name: PowerSlash
   m_EditorClassIdentifier: Assembly-CSharp::CardDefinition
-  id: magic_proto
-  displayName: Magic
+  id: powerslash
+  displayName: Power Slash
   icon: {fileID: 0}
-  effects: []
+  effects:
+  - {fileID: 11400000, guid: fe5a3484da04442e793a5258959781c2, type: 2}

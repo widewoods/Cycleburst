@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class CardEffect : ScriptableObject
@@ -7,4 +8,11 @@ public abstract class CardEffect : ScriptableObject
 
     // Do the effect
     public abstract void Resolve(CardContext ctx);
+
+    public virtual IEnumerator ResolveSequence(CardContext ctx)
+    {
+        Resolve(ctx);
+        yield break;
+    }
+
 }

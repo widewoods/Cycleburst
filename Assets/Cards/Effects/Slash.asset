@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18ca50474ed19450980e2d2d43494213, type: 3}
-  m_Name: Arrow Effect
-  m_EditorClassIdentifier: Assembly-CSharp::ArrowEffect
-  projectilePrefab: {fileID: 5586024329139656207, guid: 9480a81a651194848bc53958075e0042, type: 3}
+  m_Script: {fileID: 11500000, guid: b132bbb0c5dce49c9986abe4674ff03e, type: 3}
+  m_Name: Slash
+  m_EditorClassIdentifier: Assembly-CSharp::SlashEffect
+  hitboxPrefab: {fileID: 4167939983223370602, guid: a85abc04e2c8842a390df274fac525bb, type: 3}
   damage: 10
-  speed: 5
+  lifetime: 0.2

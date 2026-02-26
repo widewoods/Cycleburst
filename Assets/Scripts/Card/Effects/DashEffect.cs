@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Cards/Effects/Dash")]
@@ -11,4 +12,11 @@ public class DashEffect : CardEffect
     {
         ctx.world.Movement.Dash(ctx.caster, ctx.aimDir, distance, duration);
     }
+
+    public override IEnumerator ResolveSequence(CardContext ctx)
+    {
+        ctx.world.Movement.Dash(ctx.caster, ctx.aimDir, distance, duration);
+        yield return new WaitForSeconds(duration);
+    }
+
 }

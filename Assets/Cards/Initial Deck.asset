@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Initial Deck
   m_EditorClassIdentifier: Assembly-CSharp::DeckList
   cards:
-  - {fileID: 11400000, guid: b43c48cd0281a4a21ab7db792d5b8c5f, type: 2}
-  - {fileID: 11400000, guid: 58c162b83efe9420cadfcb8054b137d8, type: 2}
+  - {fileID: 11400000, guid: 531b8948627264456a1666f4b1a03b51, type: 2}
+  - {fileID: 11400000, guid: 00e9ce63426794b7a94253b3c3dbc813, type: 2}
   - {fileID: 11400000, guid: 79e60b4c48e364034ac18b8f1aab82d6, type: 2}
-  - {fileID: 11400000, guid: 79e60b4c48e364034ac18b8f1aab82d6, type: 2}
+  - {fileID: 11400000, guid: ff80b085308054cc080bb32d1b4d37de, type: 2}
   - {fileID: 11400000, guid: b43c48cd0281a4a21ab7db792d5b8c5f, type: 2}
   - {fileID: 11400000, guid: 58c162b83efe9420cadfcb8054b137d8, type: 2}
