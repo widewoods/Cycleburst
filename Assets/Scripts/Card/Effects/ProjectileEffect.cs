@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Cards/Effects/Arrow")]
-public class ArrowEffect : CardEffect
+[CreateAssetMenu(menuName = "Cards/Effects/Projectile")]
+public class ProjectileEffect : CardEffect
 {
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private float damage;

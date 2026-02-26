@@ -782,7 +782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 153674093aad34c7a9a571ef7c046779, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  maxHealth: 10
+  maxHealth: 100
 --- !u!58 &1988695192
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32e73861dd9634d7e88e0e59b1dbca84, type: 3}
-  m_Name: QuickShot
+  m_Name: Knockback Radial
   m_EditorClassIdentifier: Assembly-CSharp::CardDefinition
-  id: quickshot
-  displayName: QuickShot
+  id: knockback
+  displayName: Knockback
   icon: {fileID: 0}
+  resolveSimultaneous: 1
   effects:
-  - {fileID: 11400000, guid: 9a38fc96da52849618fd889fc785573a, type: 2}
+  - {fileID: 11400000, guid: 6e6f3cae0a6fa44bf9016f2b3ebd0e9f, type: 2}

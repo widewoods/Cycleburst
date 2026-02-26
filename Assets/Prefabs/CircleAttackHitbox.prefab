@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4418646535551911261}
   - component: {fileID: 5767769053864293479}
   m_Layer: 0
-  m_Name: CircleHitbox
+  m_Name: CircleAttackHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
