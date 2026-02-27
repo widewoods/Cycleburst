@@ -1,13 +1,14 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyFollowPrototype : MonoBehaviour
+public class EnemyFollowPrototype : MonoBehaviour, IKnockbackReceiver
 {
     [SerializeField] private Transform target;
     [SerializeField] private float moveSpeed = 2.5f;
 
     private Rigidbody2D rb;
     private bool stunned = false;
+    private Coroutine knockbackRoutine;
 
     void Awake()
     {
@@ -40,6 +41,10 @@ public class EnemyFollowPrototype : MonoBehaviour
         {
             rb.linearVelocity = dir * moveSpeed;
         }
+        else
+        {
+            transform.position = Vector2.MoveTowards(current, destination, moveSpeed * Time.fixedDeltaTime);
+        }
     }
 
     public void SetTarget(Transform targetTransform)
@@ -56,19 +61,48 @@ public class EnemyFollowPrototype : MonoBehaviour
 
         while (elapsed < duration)
         {
-            rb.linearVelocity = direction * speed;
+            if (rb != null)
+            {
+                rb.linearVelocity = direction * speed;
+            }
+            else
+            {
+                transform.position += (Vector3)(direction * speed * Time.fixedDeltaTime);
+            }
             elapsed += Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
 
-        rb.linearVelocity = Vector2.zero;
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
         stunned = false;
+        knockbackRoutine = null;
     }
 
 
-    public void Knockback(Vector2 direction, float distance, float duration)
+    public void ApplyKnockback(Vector2 direction, float distance, float duration)
     {
         direction = direction.normalized;
-        StartCoroutine(KnockbackRoutine(direction, distance, duration));
+        if (knockbackRoutine != null)
+        {
+            StopCoroutine(knockbackRoutine);
+        }
+        knockbackRoutine = StartCoroutine(KnockbackRoutine(direction, distance, duration));
+    }
+
+    void OnDisable()
+    {
+        if (knockbackRoutine != null)
+        {
+            StopCoroutine(knockbackRoutine);
+            knockbackRoutine = null;
+        }
+        stunned = false;
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 }
