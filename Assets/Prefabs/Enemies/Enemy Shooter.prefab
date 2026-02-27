@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 482966570630725958}
   - component: {fileID: 7775223186184783039}
   - component: {fileID: 7312520970572327308}
-  - component: {fileID: 30448117805005530}
   - component: {fileID: -8768286100706589812}
+  - component: {fileID: -6893131663914406008}
   - component: {fileID: -8136153946038198285}
-  - component: {fileID: -7229128892824945053}
-  m_Layer: 0
-  m_Name: EnemyPrefab
+  - component: {fileID: 6274242144088673646}
+  - component: {fileID: 6319686430421885796}
+  m_Layer: 6
+  m_Name: Enemy Shooter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -142,20 +143,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &30448117805005530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 593486390341843193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b382b95df37b24627b1bcb59cff0c735, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyFollowPrototype
-  target: {fileID: 0}
-  moveSpeed: 2.5
 --- !u!50 &-8768286100706589812
 Rigidbody2D:
   serializedVersion: 5
@@ -183,6 +170,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-6893131663914406008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593486390341843193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97ff1abfde7c444a1b8e484048c863bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
+  health: {fileID: -8136153946038198285}
+  rb: {fileID: -8768286100706589812}
+  movementBehavior: {fileID: 0}
+  attackBehaviors: []
+  target: {fileID: 0}
 --- !u!114 &-8136153946038198285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealthPrototype
   maxHealth: 10
---- !u!114 &-7229128892824945053
+--- !u!114 &6274242144088673646
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,7 +209,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 593486390341843193}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0a737f1c9eec4c58a3c66c798279426, type: 3}
+  m_Script: {fileID: 11500000, guid: 2a9d6caef70a0497e9a1d152110e68b4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackCollider
-  damage: 3
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyChaseBehavior
+  moveSpeed: 2.5
+  stopDistance: 5
+--- !u!114 &6319686430421885796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593486390341843193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c268e06d39448559a49e3c6d35b295, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBulletShooterBehavior
+  bulletPrefab: {fileID: 5586024329139656207, guid: 06db14967dc2341299ac494f72d179b2, type: 3}
+  bulletDamage: 5
+  bulletSpeed: 5
+  attackCooldown: 2
+  attackWindup: 0.4

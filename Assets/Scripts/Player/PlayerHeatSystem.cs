@@ -43,7 +43,7 @@ public class PlayerHeatSystem : MonoBehaviour
     public void ChangeHeat(int amount)
     {
         currentHeat += amount;
-        if (currentHeat == 0)
+        if (currentHeat <= 0)
         {
             overheated = false;
         }

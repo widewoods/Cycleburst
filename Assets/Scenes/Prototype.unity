@@ -1151,6 +1151,7 @@ MonoBehaviour:
   deckList: {fileID: 11400000, guid: 6da959970baba48188e327c07c7582b1, type: 2}
   playerTransform: {fileID: 1988695185}
   playerAim: {fileID: 1988695189}
+  globalCooldown: 0.2
 --- !u!114 &1018898467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1651,6 +1652,9 @@ MonoBehaviour:
   enemyEntries:
   - prefab: {fileID: 593486390341843193, guid: 980243693732647e980cd5cbc4f4c0bd, type: 3}
     cost: 1
+    weight: 1
+  - prefab: {fileID: 593486390341843193, guid: 40c066d8eebc944be9240cc925d86aee, type: 3}
+    cost: 2
     weight: 1
   spawnPoints: []
   fallbackSpawnRadius: 10

@@ -41,7 +41,7 @@ public class WaveManagerPrototype : MonoBehaviour
         if (waveLoopRoutine != null) return;
         if (enemySpawner == null)
         {
-            Debug.LogError("WaveManagerPrototype requires an EnemySpawnerPrototype reference.");
+            Debug.LogError("WaveManagerPrototype requires an EnemySpawner reference.");
             return;
         }
 

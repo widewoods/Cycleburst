@@ -9,6 +9,7 @@ public sealed class EnemyRuntimeContext
         Self = self;
         Body = body;
         Health = health;
+        State = new EnemySharedState();
     }
 
     public EnemyAgent Agent { get; }
@@ -17,4 +18,15 @@ public sealed class EnemyRuntimeContext
     public EnemyHealth Health { get; }
     public Rigidbody2D Body { get; }
     public Transform Target { get; set; }
+    public EnemySharedState State { get; set; }
+}
+
+public sealed class EnemySharedState
+{
+    public bool LockMovement { get; set; }
+
+    public EnemySharedState()
+    {
+        LockMovement = false;
+    }
 }

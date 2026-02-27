@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -31,8 +30,14 @@ public class EnemyAgent : MonoBehaviour
     void Start()
     {
         PlayerMovement player = FindFirstObjectByType<PlayerMovement>();
-        target = player.transform;
         if (player != null)
+        {
+            target = player.transform;
+            context.Target = target;
+            return;
+        }
+
+        if (target != null)
         {
             context.Target = target;
         }
@@ -41,8 +46,8 @@ public class EnemyAgent : MonoBehaviour
     void Update()
     {
         // Tick behaviors except physics related
-        float dt = Time.fixedDeltaTime;
-        if (attackBehaviors == null)
+        float dt = Time.deltaTime;
+        if (attackBehaviors != null)
         {
             foreach (var behavior in attackBehaviors)
             {
@@ -55,6 +60,7 @@ public class EnemyAgent : MonoBehaviour
     void FixedUpdate()
     {
         // Tick physics related behaviors
+        if (movementBehavior == null) return;
         float dt = Time.fixedDeltaTime;
         movementBehavior.TickMovement(dt);
     }
@@ -74,6 +80,10 @@ public class EnemyAgent : MonoBehaviour
         {
             health = GetComponent<EnemyHealth>();
         }
+        if (health == null)
+        {
+            health = GetComponentInChildren<EnemyHealth>();
+        }
         if (rb == null)
         {
             rb = GetComponent<Rigidbody2D>();
@@ -84,11 +94,11 @@ public class EnemyAgent : MonoBehaviour
     {
         if (movementBehavior == null)
         {
-            movementBehavior = GetComponent<EnemyMovementBehavior>();
+            movementBehavior = GetComponentInChildren<EnemyMovementBehavior>();
         }
         if (attackBehaviors == null || attackBehaviors.Length == 0)
         {
-            attackBehaviors = GetComponents<EnemyAttackBehavior>();
+            attackBehaviors = GetComponentsInChildren<EnemyAttackBehavior>();
         }
     }
 
@@ -121,6 +131,15 @@ public class EnemyAgent : MonoBehaviour
                 if (behavior == null) continue;
                 behavior.Terminate();
             }
+        }
+    }
+
+    public void SetTarget(Transform targetTransform)
+    {
+        target = targetTransform;
+        if (context != null)
+        {
+            context.Target = targetTransform;
         }
     }
 

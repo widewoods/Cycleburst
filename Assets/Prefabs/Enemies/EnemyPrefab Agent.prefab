@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -8136153946038198285}
   - component: {fileID: 6274242144088673646}
   - component: {fileID: -5531692319763365401}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: EnemyPrefab Agent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.9622642, g: 0.28595585, b: 0.28595585, a: 1}
+  m_Color: {r: 0.9811321, g: 0.16197933, b: 0.16197933, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -184,8 +184,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAgent
   health: {fileID: -8136153946038198285}
   rb: {fileID: -8768286100706589812}
-  movement: {fileID: 6274242144088673646}
-  attacks: []
+  movementBehavior: {fileID: 0}
+  attackBehaviors: []
   target: {fileID: 0}
 --- !u!114 &-8136153946038198285
 MonoBehaviour:
@@ -213,6 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyChaseBehavior
   moveSpeed: 2.5
+  stopDistance: 0
 --- !u!114 &-5531692319763365401
 MonoBehaviour:
   m_ObjectHideFlags: 0

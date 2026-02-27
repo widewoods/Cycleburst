@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class DeckManager : MonoBehaviour
@@ -14,87 +13,126 @@ public class DeckManager : MonoBehaviour
     private List<CardInstance> discardPile;
 
     private CardInstance[] hand;
-    private bool playSuccessful;
+    private bool isResolvingSequence;
+    private Coroutine playRoutine;
 
     // Player
     [SerializeField] private Transform playerTransform;
     [SerializeField] private PlayerAim playerAim;
 
+
+    [SerializeField] private float globalCooldown;
+    private float globalCooldownRemaining;
+
     void Start()
     {
-        drawPile = new List<CardInstance>();
-        discardPile = new List<CardInstance>();
+        drawPile ??= new List<CardInstance>();
+        discardPile ??= new List<CardInstance>();
         InitFromDeckList(deckList);
+    }
+
+    void Update()
+    {
+        if (globalCooldownRemaining > 0)
+        {
+            globalCooldownRemaining = Mathf.Max(0f, globalCooldownRemaining - Time.deltaTime);
+        }
     }
 
     void OnEnable()
     {
-        worldServices.Wave.WaveCleared += InitFromCurrentDeck;
+        if (worldServices != null && worldServices.Wave != null)
+        {
+            worldServices.Wave.WaveCleared += InitFromCurrentDeck;
+        }
     }
 
     void OnDisable()
     {
-        worldServices.Wave.WaveCleared -= InitFromCurrentDeck;
+        if (worldServices != null && worldServices.Wave != null)
+        {
+            worldServices.Wave.WaveCleared -= InitFromCurrentDeck;
+        }
+
+        if (playRoutine != null)
+        {
+            StopCoroutine(playRoutine);
+            playRoutine = null;
+        }
+        isResolvingSequence = false;
     }
 
 
     public bool TryPlaySlot(int slot)
     {
+        if (hand == null) return false;
+        if (slot < 0 || slot >= hand.Length) return false;
+        if (isResolvingSequence) return false;
+        if (globalCooldownRemaining > 0f) return false;
+
         var card = hand[slot];
         if (card == null)
         {
             return false;
         }
+        if (card.Definition == null)
+        {
+            Debug.LogWarning($"Hand slot {slot} has a card instance with null definition.");
+            return false;
+        }
 
-        if (playerHeat.Overheated)
+        if (playerHeat != null && playerHeat.Overheated)
         {
             Debug.Log("Overheated!");
             return false;
         }
 
-        if (!card.Definition.ResolveSimultaneous)
-        {
-            playSuccessful = false;
-            StartCoroutine(PlayCardRoutine(card, slot));
-            return playSuccessful;
-        }
-
-        return PlayCard(card, slot);
-    }
-
-    private IEnumerator PlayCardRoutine(CardInstance card, int slot)
-    {
         var ctx = BuildContext(card);
         if (!card.Definition.CanPlay(ctx))
         {
-            playSuccessful = false;
-            yield break;
+            return false;
         }
 
-        yield return card.Definition.ResolveSequence(ctx);
+        globalCooldownRemaining = globalCooldown;
 
-        playerHeat.ChangeHeat(+card.Definition.HeatGenerated);
-
-        Discard(slot);
-        DrawToSlot(slot);
-        playSuccessful = true;
-    }
-
-    private bool PlayCard(CardInstance card, int slot)
-    {
-
-        var ctx = BuildContext(card);          // player, aim dir, cursor pos, etc.
-        if (!card.Definition.CanPlay(ctx)) return false;
-
-        card.Definition.Resolve(ctx);          // runs effect list
-        playerHeat.ChangeHeat(+card.Definition.HeatGenerated);
-
-        Discard(slot);
-        DrawToSlot(slot);
-
+        if (!card.Definition.ResolveSimultaneous)
+        {
+            isResolvingSequence = true;
+            playRoutine = StartCoroutine(PlayCardRoutine(card, slot, ctx));
+            return true;
+        }
+        PlayCard(card, slot, ctx);
         return true;
     }
 
+    private IEnumerator PlayCardRoutine(CardInstance card, int slot, CardContext ctx)
+    {
+        yield return card.Definition.ResolveSequence(ctx);
+
+        ApplyPostPlay(card, slot);
+        isResolvingSequence = false;
+        playRoutine = null;
+    }
+
+    private void PlayCard(CardInstance card, int slot, CardContext ctx)
+    {
+        card.Definition.Resolve(ctx);          // runs effect list
+        ApplyPostPlay(card, slot);
+    }
+
+    private void ApplyPostPlay(CardInstance card, int slot)
+    {
+        if (playerHeat != null)
+        {
+            playerHeat.ChangeHeat(+card.Definition.HeatGenerated);
+        }
+
+        if (hand == null || slot < 0 || slot >= hand.Length) return;
+        if (hand[slot] != card) return;
+
+        Discard(slot);
+        DrawToSlot(slot);
+    }
 
     private void DrawToSlot(int slot)
     {
@@ -119,6 +157,10 @@ public class DeckManager : MonoBehaviour
 
     private void InitFromDeckList(DeckList deckList)
     {
+        if (deckList == null) return;
+        if (drawPile == null) drawPile = new List<CardInstance>();
+        if (discardPile == null) discardPile = new List<CardInstance>();
+
         drawPile.Clear(); discardPile.Clear();
         hand = new CardInstance[4];
 
@@ -170,10 +212,17 @@ public class DeckManager : MonoBehaviour
 
     CardContext BuildContext(CardInstance card)
     {
+        Transform caster = playerTransform;
+        Vector2 aimDirection = playerAim.aimDirection;
+        if (aimDirection.sqrMagnitude < 0.0001f)
+        {
+            aimDirection = Vector2.up;
+        }
+
         return new CardContext
         {
-            caster = playerTransform,
-            aimDir = playerAim.aimDirection,
+            caster = caster,
+            aimDir = aimDirection,
             world = worldServices
         };
     }

@@ -61,7 +61,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (waveBudget <= 0)
         {
-            Debug.LogWarning("EnemySpawnerPrototype.StartWaveSpawn called with non-positive budget.");
+            Debug.LogWarning("EnemySpawner.StartWaveSpawn called with non-positive budget.");
             return;
         }
 
@@ -151,10 +151,18 @@ public class EnemySpawner : MonoBehaviour
             EnemySpawned?.Invoke(health);
         }
 
-        EnemyFollowPrototype follower = enemyObject.GetComponentInChildren<EnemyFollowPrototype>();
-        if (follower != null && cachedPlayerTransform != null)
+        AssignTarget(enemyObject);
+    }
+
+    private void AssignTarget(GameObject enemyObject)
+    {
+        if (enemyObject == null || cachedPlayerTransform == null) return;
+
+        EnemyAgent enemyAgent = enemyObject.GetComponentInChildren<EnemyAgent>();
+        if (enemyAgent != null)
         {
-            follower.SetTarget(cachedPlayerTransform);
+            enemyAgent.SetTarget(cachedPlayerTransform);
+            return;
         }
     }
 
