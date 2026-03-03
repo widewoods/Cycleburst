@@ -16,9 +16,9 @@ public class KnockbackHitbox : AttackHitboxBase
         Vector2 dir = ((Vector2)damageTarget.transform.position - (Vector2)Source.position).normalized;
         if (dir.sqrMagnitude < 0.0001f) dir = Vector2.right;
 
-        EnemyFollowPrototype enemyMovement = damageTarget.GetComponent<EnemyFollowPrototype>();
+        // EnemyFollowPrototype enemyMovement = damageTarget.GetComponent<EnemyFollowPrototype>();
 
 
-        enemyMovement.Knockback(dir, knockbackDistance, duration: life);
+        // enemyMovement.Knockback(dir, knockbackDistance, duration: life);
     }
 }

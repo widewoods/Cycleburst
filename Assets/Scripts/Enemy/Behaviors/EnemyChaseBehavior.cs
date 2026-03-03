@@ -22,6 +22,13 @@ public class EnemyChaseBehavior : EnemyMovementBehavior
         float distance = dir.magnitude;
         dir.Normalize();
 
+        Vector3 directionToTarget = Context.Target.position - transform.position;
+        directionToTarget.Normalize();
+
+        float angleRadians = Mathf.Atan2(directionToTarget.y, directionToTarget.x);
+        float angleDegrees = angleRadians * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0f, 0f, angleDegrees);
+
         if (distance > stopDistance)
         {
             Context.Body.linearVelocity = dir * moveSpeed;

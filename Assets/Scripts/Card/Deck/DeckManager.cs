@@ -13,12 +13,15 @@ public class DeckManager : MonoBehaviour
     private List<CardInstance> discardPile;
 
     private CardInstance[] hand;
+    [SerializeField] private int handSize;
     private bool isResolvingSequence;
     private Coroutine playRoutine;
 
     // Player
     [SerializeField] private Transform playerTransform;
     [SerializeField] private PlayerAim playerAim;
+
+
 
 
     [SerializeField] private float globalCooldown;
@@ -71,21 +74,8 @@ public class DeckManager : MonoBehaviour
         if (globalCooldownRemaining > 0f) return false;
 
         var card = hand[slot];
-        if (card == null)
-        {
-            return false;
-        }
-        if (card.Definition == null)
-        {
-            Debug.LogWarning($"Hand slot {slot} has a card instance with null definition.");
-            return false;
-        }
 
-        if (playerHeat != null && playerHeat.Overheated)
-        {
-            Debug.Log("Overheated!");
-            return false;
-        }
+        if (!CanPlayCard(card)) return false;
 
         var ctx = BuildContext(card);
         if (!card.Definition.CanPlay(ctx))
@@ -102,6 +92,27 @@ public class DeckManager : MonoBehaviour
             return true;
         }
         PlayCard(card, slot, ctx);
+        return true;
+    }
+
+    private bool CanPlayCard(CardInstance card)
+    {
+        if (card == null)
+        {
+            return false;
+        }
+        if (card.Definition == null)
+        {
+            Debug.LogWarning($"Played card has a card instance with null definition.");
+            return false;
+        }
+
+        if (playerHeat != null && playerHeat.Overheated)
+        {
+            Debug.Log("Overheated!");
+            return false;
+        }
+
         return true;
     }
 
@@ -145,7 +156,6 @@ public class DeckManager : MonoBehaviour
         var card = drawPile[lastIndex];
         drawPile.RemoveAt(lastIndex);
         hand[slot] = card;
-
     }
 
     private void Discard(int slot)
@@ -162,7 +172,7 @@ public class DeckManager : MonoBehaviour
         if (discardPile == null) discardPile = new List<CardInstance>();
 
         drawPile.Clear(); discardPile.Clear();
-        hand = new CardInstance[4];
+        hand = new CardInstance[handSize];
 
         foreach (var def in deckList.cards)
             drawPile.Add(new CardInstance(def));
@@ -185,12 +195,10 @@ public class DeckManager : MonoBehaviour
         }
 
         drawPile.AddRange(discardPile);
-
         discardPile.Clear();
-        hand = new CardInstance[4];
+        hand = new CardInstance[handSize];
 
         drawPile.Shuffle();
-
         for (int i = 0; i < hand.Length; i++)
             DrawToSlot(i);
     }

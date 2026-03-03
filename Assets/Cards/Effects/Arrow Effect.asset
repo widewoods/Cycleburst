@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ArrowEffect
   projectilePrefab: {fileID: 5586024329139656207, guid: 9480a81a651194848bc53958075e0042, type: 3}
   damage: 10
-  speed: 5
+  speed: 10
