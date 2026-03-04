@@ -13,6 +13,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public bool IsAlive => currentHealth > 0;
 
     public event Action OnPlayerDeath;
+    public event Action<float> OnPlayerHit;
 
     void Awake()
     {
@@ -27,6 +28,10 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (!IsAlive)
         {
             HandleDeath();
+        }
+        else
+        {
+            OnPlayerHit?.Invoke(request.Amount);
         }
     }
 

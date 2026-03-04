@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6274242144088673646}
   - component: {fileID: -5531692319763365401}
   - component: {fileID: 5590851124552762530}
+  - component: {fileID: -8041249974148825290}
   m_Layer: 6
   m_Name: EnemyPrefab Agent
   m_TagString: Untagged
@@ -168,6 +169,20 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.46014065, y: 0.453125}
   m_EdgeRadius: 0
+--- !u!114 &-8041249974148825290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593486390341843193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f72f41904a9047e3b293289dc02c641, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathFeedback
+  enemyHealth: {fileID: -8136153946038198285}
+  deathParticlePrefab: {fileID: 9131343664824106845, guid: cffd31e0badeb4f2f8fddf3643b3b6aa, type: 3}
 --- !u!1 &6279262429603819807
 GameObject:
   m_ObjectHideFlags: 0

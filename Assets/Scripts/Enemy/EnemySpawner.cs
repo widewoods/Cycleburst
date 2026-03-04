@@ -147,7 +147,7 @@ public class EnemySpawner : MonoBehaviour
         if (health != null)
         {
             aliveEnemies.Add(health);
-            health.Died += OnEnemyDied;
+            health.OnDeath += OnEnemyDied;
             EnemySpawned?.Invoke(health);
         }
 
@@ -189,7 +189,7 @@ public class EnemySpawner : MonoBehaviour
     private void OnEnemyDied(EnemyHealth deadEnemy)
     {
         if (deadEnemy == null) return;
-        deadEnemy.Died -= OnEnemyDied;
+        deadEnemy.OnDeath -= OnEnemyDied;
         aliveEnemies.Remove(deadEnemy);
         EnemyRemoved?.Invoke(deadEnemy);
     }
@@ -219,7 +219,7 @@ public class EnemySpawner : MonoBehaviour
             EnemyHealth enemy = aliveEnemies[i];
             if (enemy != null)
             {
-                enemy.Died -= OnEnemyDied;
+                enemy.OnDeath -= OnEnemyDied;
             }
         }
     }

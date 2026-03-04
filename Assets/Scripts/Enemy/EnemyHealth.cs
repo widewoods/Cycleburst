@@ -12,7 +12,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
     public float MaxHealth => maxHealth;
 
     public bool IsAlive => currentHealth > 0;
-    public event Action<EnemyHealth> Died;
+    public event Action<EnemyHealth> OnDeath;
 
     void Awake()
     {
@@ -36,7 +36,7 @@ public class EnemyHealth : MonoBehaviour, IDamageable
         if (hasDied) return;
 
         hasDied = true;
-        Died?.Invoke(this);
+        OnDeath?.Invoke(this);
         Destroy(gameObject);
     }
 }
