@@ -46,7 +46,7 @@ public class DeckManager : MonoBehaviour
     {
         if (worldServices != null && worldServices.Wave != null)
         {
-            worldServices.Wave.WaveCleared += InitFromCurrentDeck;
+            worldServices.Wave.WaveStarted += InitFromCurrentDeck;
         }
     }
 
@@ -54,7 +54,7 @@ public class DeckManager : MonoBehaviour
     {
         if (worldServices != null && worldServices.Wave != null)
         {
-            worldServices.Wave.WaveCleared -= InitFromCurrentDeck;
+            worldServices.Wave.WaveStarted -= InitFromCurrentDeck;
         }
 
         if (playRoutine != null)
