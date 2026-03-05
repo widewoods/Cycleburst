@@ -35,7 +35,10 @@ public class CardDefinition : ScriptableObject
     public void Resolve(CardContext ctx)
     {
         foreach (var e in effects)
-            e.Resolve(ctx);
+        {
+            if (ctx.caster != null)
+                e.Resolve(ctx);
+        }
     }
 
     public IEnumerator ResolveSequence(CardContext ctx)

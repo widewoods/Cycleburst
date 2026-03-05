@@ -4,6 +4,7 @@ public class PlayerHitFeedback : MonoBehaviour
 {
     [SerializeField] private GameObject deathParticlePrefab;
     [SerializeField] private PlayerHealth playerHealth;
+    [SerializeField] private AudioClip hitSound;
     private CameraFeedback cameraFeedback;
 
     void Awake()
@@ -34,5 +35,6 @@ public class PlayerHitFeedback : MonoBehaviour
     {
         cameraFeedback.CameraShake();
         cameraFeedback.PlayerHitVignette();
+        SfxService.Instance.Play(hitSound);
     }
 }

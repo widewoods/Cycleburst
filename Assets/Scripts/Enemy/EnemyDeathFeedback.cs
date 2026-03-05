@@ -4,6 +4,7 @@ public class EnemyDeathFeedback : MonoBehaviour
 {
     [SerializeField] private EnemyHealth enemyHealth;
     [SerializeField] private GameObject deathParticlePrefab;
+    [SerializeField] private AudioClip deathClip;
     private CameraFeedback feedback;
 
     void Awake()
@@ -27,5 +28,6 @@ public class EnemyDeathFeedback : MonoBehaviour
     {
         Instantiate(deathParticlePrefab, health.transform.position, Quaternion.identity);
         feedback.CameraShake();
+        SfxService.Instance.Play(deathClip);
     }
 }

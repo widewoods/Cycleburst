@@ -183,6 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathFeedback
   enemyHealth: {fileID: -8136153946038198285}
   deathParticlePrefab: {fileID: 9131343664824106845, guid: cffd31e0badeb4f2f8fddf3643b3b6aa, type: 3}
+  deathClip: {fileID: 8300000, guid: 485c525116a0a48acbdf016d81405696, type: 3}
 --- !u!1 &6279262429603819807
 GameObject:
   m_ObjectHideFlags: 0
